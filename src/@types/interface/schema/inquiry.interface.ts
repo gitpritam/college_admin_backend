@@ -1,11 +1,3 @@
-// type   or   enum
-export type InquiryTypes =
-  | "general"
-  | "exam"
-  | "placement"
-  | "admission"
-  | "others";
-
 // export enum InquiryEnum {
 //   GENERAL = "general",
 //   EXAM = "exam",
@@ -13,6 +5,8 @@ export type InquiryTypes =
 //   ADMISSION = "admission",
 //   OTHERS = "others",
 // }
+
+import { InquiryTypes } from "../../types/inquiryTypes.type";
 
 export interface IInquiry {
   type: InquiryTypes;
