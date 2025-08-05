@@ -91,6 +91,28 @@ const StudentSchema = new mongoose.Schema<IStudent>(
       trim: true,
       match: [/\S+@\S+\.\S+/, "Email is invalid"],
     },
+    department: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    year_of_admission: {
+      type: Number,
+      required: true,
+      min: [1900, "Year of admission cannot be before 1900"],
+      max: [
+        new Date().getFullYear(),
+        "Year of admission cannot be in the future",
+      ],
+    },
+    year_of_passing: {
+      type: Number,
+      min: [1900, "Year of passing cannot be before 1900"],
+      max: [
+        new Date().getFullYear() + 10,
+        "Year of passing cannot be more than 10 years in the future",
+      ],
+    },
   },
   { timestamps: true }
 );

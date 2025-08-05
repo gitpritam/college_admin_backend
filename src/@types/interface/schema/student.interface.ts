@@ -14,4 +14,7 @@ export interface IStudent {
   guardian_email?: string;
   current_address: IAddress;
   permanent_address: IAddress;
+  department: string;
+  year_of_admission: number;
+  year_of_passing?: number;
 }
