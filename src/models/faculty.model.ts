@@ -1,6 +1,9 @@
 import mongoose, { type Date } from "mongoose";
 import type { IFaculty } from "../@types/interface/schema/faculty.interface";
 import AddressSchema from "./address.schema";
+import { rolesType } from "../@types/types/roles.type";
+
+const roles: rolesType[] = ["admin", "staff", "guest"];
 
 const FacultySchema = new mongoose.Schema<IFaculty>(
   {
@@ -70,42 +73,41 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       maxlength: [200, "Designation should be at most 200 characters"],
     },
     qualification: {
-       type: String,
+      type: String,
       required: true,
       trim: true,
       minlength: [3, "Qualification should be at least 3 characters"],
       maxlength: [200, "Qualification should be at most 200 characters"],
     },
     experience: {
-       type: String,
+      type: String,
       required: true,
       trim: true,
       minlength: [3, "Experience  should be at least 3 characters"],
       maxlength: [200, "Experience should be at most 200 characters"],
     },
-    password:{
+    password: {
       type: String,
       trim: true,
       required: false,
-    }, 
+    },
     role: {
-       type: String,
-       enum: ['admin', 'faculty', 'stuff'],
-       default: "staff",
-       required: true,
-      },
+      type: String,
+      enum: roles,
+      default: "staff",
+    },
     notice_permission: {
       type: Boolean,
       default: false,
     },
     event_permission: {
-      type: String,
-      required: false,
-    }
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true }
 );
 
-const FacultyModel = mongoose.model<IFaculty>("faculties",  FacultySchema);
+const FacultyModel = mongoose.model<IFaculty>("faculties", FacultySchema);
 
 export default FacultyModel;
