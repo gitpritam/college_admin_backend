@@ -1,6 +1,6 @@
 import type { IAddress } from "./address.interface";
 
-export interface IStudent {
+export interface IFaculty {
   faculty_id: string;
   first_name: string;
   middle_name?: string;
