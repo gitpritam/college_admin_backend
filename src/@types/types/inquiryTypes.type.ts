@@ -1,5 +1,5 @@
 // type   or   enum
-export type InquiryTypes =
+export type InquiryCategoryTypes =
   | "general"
   | "exam"
   | "placement"

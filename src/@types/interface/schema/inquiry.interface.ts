@@ -6,8 +6,14 @@
 //   OTHERS = "others",
 // }
 
-import { InquiryTypes } from "../../types/inquiryTypes.type";
+import { InquiryCategoryTypes } from "../../types/inquiryTypes.type";
 
-export interface IInquiry {
-  type: InquiryTypes;
+export default interface IInquiry {
+  category: InquiryCategoryTypes;
+  name: string;
+  subject: string;
+  description: string;
+  email: string;
+  phone_number: string;
+  course?: string;
 }
