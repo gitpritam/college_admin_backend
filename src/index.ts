@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", MainRouter); //localhost:5000/api
 
-app.all("*", (req: Request, res: Response, next: NextFunction) => {
+app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new CustomError(
     404,
     `Can't find ${req.originalUrl} in this server`
