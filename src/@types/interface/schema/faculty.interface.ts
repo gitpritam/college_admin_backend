@@ -13,6 +13,7 @@ export interface IFaculty {
   email: string;
   current_address: IAddress;
   permanent_address: IAddress;
+  event_permission: string;
   role: string;
   notice_permission: boolean;
   password: string;

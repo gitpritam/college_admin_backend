@@ -1,10 +1,10 @@
 import mongoose, { type Date } from "mongoose";
 import type { IFaculty } from "../@types/interface/schema/faculty.interface";
-import AddressSchema from "./address.interface";
+import AddressSchema from "./address.schema";
 
 const FacultySchema = new mongoose.Schema<IFaculty>(
   {
-    fauclty_id: {
+    faculty_id: {
       type: String,
       unique: true,
     },
@@ -88,13 +88,13 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       trim: true,
       required: false,
     }, 
-    roles: {
+    role: {
        type: String,
        enum: ['admin', 'faculty', 'stuff'],
        default: "staff",
        required: true,
       },
-    notice_permisson: {
+    notice_permission: {
       type: Boolean,
       default: false,
     },
