@@ -1,6 +1,6 @@
 import mongoose, { type Date } from "mongoose";
 import type { IFaculty } from "../@types/interface/schema/faculty.interface";
-import AddressSchema from "./address.schema";
+import AddressSchema from "./address.interface";
 
 const FacultySchema = new mongoose.Schema<IFaculty>(
   {
@@ -66,22 +66,22 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       type: String,
       required: true,
       trim: true,
-      minlength: [3, "Guardian name should be at least 3 characters"],
-      maxlength: [200, "Guardian name should be at most 200 characters"],
+      minlength: [3, "Designation should be at least 3 characters"],
+      maxlength: [200, "Designation should be at most 200 characters"],
     },
     qualification: {
        type: String,
       required: true,
       trim: true,
-      minlength: [3, "Guardian name should be at least 3 characters"],
-      maxlength: [200, "Guardian name should be at most 200 characters"],
+      minlength: [3, "Qualification should be at least 3 characters"],
+      maxlength: [200, "Qualification should be at most 200 characters"],
     },
     experience: {
        type: String,
       required: true,
       trim: true,
-      minlength: [3, "Guardian name should be at least 3 characters"],
-      maxlength: [200, "Guardian name should be at most 200 characters"],
+      minlength: [3, "Experience  should be at least 3 characters"],
+      maxlength: [200, "Experience should be at most 200 characters"],
     },
     password:{
       type: String,
@@ -98,10 +98,14 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       type: Boolean,
       default: false,
     },
+    event_permission: {
+      type: String,
+      required: false,
+    }
   },
   { timestamps: true }
 );
 
-const FacultyModel = mongoose.model<IFaculty>("teachers",  FacultySchema);
+const FacultyModel = mongoose.model<IFaculty>("faculties",  FacultySchema);
 
 export default FacultyModel;
