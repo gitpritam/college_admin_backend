@@ -11,7 +11,7 @@ const NoticeSchema = new mongoose.Schema<INotice>(
     title: {
       type: String,
       minlength: [3, "title should be at least 3 characters"],
-      maxlength: [20, "title should be at most 20 characters"],
+      maxlength: [100, "title should be at most 20 characters"],
       required: true,
       trim: true,
     },
