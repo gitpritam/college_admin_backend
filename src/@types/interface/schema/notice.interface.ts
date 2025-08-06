@@ -1,5 +1,5 @@
 export interface INotice{
-    Notice_id: string;
+    notice_id: string;
     title: string;
     description: string;
     year: number;
