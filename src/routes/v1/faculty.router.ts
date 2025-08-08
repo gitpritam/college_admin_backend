@@ -1,6 +1,6 @@
 import { Router } from "express";
-import createFacultyController from "../../controllers/v1/faculty/createFaculty.controller";
 import multer from "multer";
+import { createFacultyController } from "../../controllers/v1/faculty";
 
 const FacultyRouter = Router();
 const upload = multer();
