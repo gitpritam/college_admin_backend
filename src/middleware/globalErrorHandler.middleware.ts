@@ -64,7 +64,7 @@ const globalErrorHandler = (
       error: err,
     });
   } else {
-    let error =
+    let error: CustomError =
       err instanceof CustomError
         ? err
         : new CustomError(
@@ -72,6 +72,7 @@ const globalErrorHandler = (
             err.message || "Something went wrong"
           );
 
+    //mongodb
     if (err.name === "CastError") error = handleCastError(err);
     if (err.name === "ValidationError") error = handleValidationError(err);
     if (err.code === 11000) error = handleDuplicateKeyError(err);

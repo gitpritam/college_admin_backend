@@ -1,9 +1,9 @@
-import mongoose, { type Date } from "mongoose";
+import mongoose from "mongoose";
 import type { IFaculty } from "../@types/interface/schema/faculty.interface";
 import AddressSchema from "./address.schema";
 import { rolesType } from "../@types/types/roles.type";
 
-const roles: rolesType[] = ["admin", "staff", "guest"];
+const roles: rolesType[] = ["admin", "faculty", "staff", "guest"];
 
 const FacultySchema = new mongoose.Schema<IFaculty>(
   {
@@ -13,21 +13,20 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
     },
     first_name: {
       type: String,
-      minlength: [3, "First name should be at least 3 characters"],
+      minlength: [2, "First name should be at least 2 characters"],
       maxlength: [20, "First name should be at most 20 characters"],
       required: true,
       trim: true,
     },
     middle_name: {
       type: String,
-      minlength: [3, "Middle name should be at least 3 characters"],
       maxlength: [20, "Middle name should be at most 20 characters"],
       required: false,
       trim: true,
     },
     last_name: {
       type: String,
-      minlength: [3, "Last name should be at least 3 characters"],
+      minlength: [2, "Last name should be at least 2 characters"],
       maxlength: [20, "Last name should be at most 20 characters"],
       required: true,
       trim: true,
@@ -96,6 +95,10 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       enum: roles,
       default: "staff",
     },
+    joining_date: {
+      type: Date,
+      required: true,
+    },
     notice_permission: {
       type: Boolean,
       default: false,
@@ -103,6 +106,16 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
     event_permission: {
       type: Boolean,
       default: false,
+    },
+    department: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: [2, "Department should be at least 2 characters"],
+      maxlength: [5, "Department should be at most 50 characters"],
+    },
+    profile_picture_url: {
+      type: String,
     },
   },
   { timestamps: true }
