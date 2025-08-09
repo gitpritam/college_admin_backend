@@ -4,6 +4,7 @@ import CustomError from "../../../utils/CustomError";
 import { generateFacultyID } from "./id/generateFacultyID";
 import { IFaculty } from "../../../@types/interface/schema/faculty.interface";
 import FacultyModel from "../../../models/faculty.model";
+import hashPassword from "../../../utils/password/hashPassword";
 
 const createFacultyController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -22,6 +23,7 @@ const createFacultyController = AsyncHandler(
       joining_date,
       department,
       role,
+      password,
     } = req.body;
 
     console.log(req.body);
@@ -38,7 +40,8 @@ const createFacultyController = AsyncHandler(
         current_address &&
         permanent_address &&
         joining_date &&
-        department
+        department &&
+        password
       )
     ) {
       return next(new CustomError(400, "Required fields are missing"));
@@ -48,6 +51,7 @@ const createFacultyController = AsyncHandler(
     const ID = await generateFacultyID(new Date(joining_date), department);
 
     //password
+    const hashedPassword = await hashPassword(password);
 
     const payload: IFaculty = {
       faculty_id: ID,
@@ -63,6 +67,7 @@ const createFacultyController = AsyncHandler(
       permanent_address,
       joining_date: new Date(joining_date),
       department,
+      password: hashedPassword,
     };
     if (middle_name) payload.middle_name = middle_name;
     if (role) payload.role = role;
