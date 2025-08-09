@@ -36,6 +36,7 @@ const login = AsyncHandler(
     const jwtExpiry = process.env.JWT_EXPIRY || "30";
 
     const token = generateAuthToken(payload, parseInt(jwtExpiry, 10));
+    //csrf attack
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",
