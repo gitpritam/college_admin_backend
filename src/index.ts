@@ -6,7 +6,6 @@ import connectDB from "./config/db.config";
 import MainRouter from "./routes";
 import CustomError from "./utils/CustomError";
 import globalErrorHandler from "./middleware/globalErrorHandler.middleware";
-import { generateFacultyID } from "./controllers/v1/faculty/id/generateFacultyID";
 
 const app = express();
 
