@@ -1,3 +1,9 @@
 import createFacultyController from "./createFaculty.controller";
+import getAllFacultyController from "./getAllFaculty.controller";
+import getSingleFacultyController from "./getSingleFaculty.controller";
 
-export { createFacultyController };
+export {
+  createFacultyController,
+  getSingleFacultyController,
+  getAllFacultyController,
+};
