@@ -117,6 +117,10 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
     profile_picture_url: {
       type: String,
     },
+    account_status: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

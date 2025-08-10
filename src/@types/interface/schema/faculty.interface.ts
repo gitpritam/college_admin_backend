@@ -21,4 +21,5 @@ export interface IFaculty {
   event_permission?: boolean;
   department: string;
   profile_picture_url?: string;
+  account_status?: boolean;
 }
