@@ -18,5 +18,5 @@ export interface IStudent {
   department: string;
   year_of_admission: number;
   year_of_passing?: number;
-  passport_photo_url?: String;
+  passport_photo_url?: string;
 }

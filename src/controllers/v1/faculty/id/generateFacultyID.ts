@@ -9,7 +9,7 @@ export const generateFacultyID = async (
   console.log(joining_year);
 
   const LastFacultyID = await FacultyModel.findOne({
-    department: department,
+     department: department,
     joining_date: {
       $gte: new Date(joining_year + "-01-01"),
       $lte: new Date(joining_year + "-12-31"),

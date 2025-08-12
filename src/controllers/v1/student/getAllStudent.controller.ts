@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import AsyncHandler from "../../../utils/AsyncHandler";
-import StudentModel from "../../../models/students.model";
+import StudentModel from "../../../models/student.model";
 import CustomError from "../../../utils/CustomError";
 
 const getAllStudentController = AsyncHandler(

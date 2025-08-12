@@ -45,11 +45,11 @@ export const studentValidationSchema = z.object({
     .min(2, "Guardian name should be at least 2 characters")
     .max(30, "Guardian name should be at most 30 characters"),
 
-   gurdian_phone_no: z
+   guardian_phone_number: z
     .string()
     .regex(/^\+?[1-9]\d{1,14}$/, "Invalid phone number format"),
 
-   gurdian_email: z
+   guardian_email: z
     .string()
     .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,"Invalid email format"),
     
