@@ -36,11 +36,11 @@ const studentSchema = new mongoose.Schema<IStudent>(
       trim: true,
     },
     registration_number: {
-        type: string,
+        type: String,
         match: [regex, "Invalid registration number format"], 
     },
     roll_no: {
-        type: number,
+        type: Number,
         required: true,
     },
     dob: {
@@ -71,9 +71,9 @@ const studentSchema = new mongoose.Schema<IStudent>(
         type: String,
         required: true,
     },
-    guardian_phone_no: {
-        type: number,
-         required: true,
+    guardian_phone_number: {
+        type: String,
+        required: true,
         unique: true,
         validate: {
             validator: function (i: string) {
@@ -110,13 +110,12 @@ const studentSchema = new mongoose.Schema<IStudent>(
     },
 
     year_of_admission: {
-        type: date,
+        type: Number,
         required: true,
     },
 
      year_of_passing: {
-        type: date,
-        required: true,
+        type: Number,
      },
 
     passport_photo_url: {
@@ -125,7 +124,7 @@ const studentSchema = new mongoose.Schema<IStudent>(
 
     },
     
-    { timestamps: true }
+    { timestamps: true}
 );
 
 const StudentModel = mongoose.model<IStudent>("students", studentSchema);

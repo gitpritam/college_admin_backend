@@ -61,9 +61,9 @@ export const studentValidationSchema = z.object({
     .min(2, "Department should be at least 2 characters")
     .max(5, "Department should be at most 5 characters"),
 
-    year_of_admission: z.coerce.date({ message: "Joining date must be a valid date" }),
+    year_of_admission: z.coerce.number({ message: "year of admission must be a valid date" }),
 
-    year_of_passout: z.coerce.date({ message: "Joining date must be a valid date" }),
+    year_of_passout: z.coerce.number({ message: "year of paassing must be a valid date" }),
     
     passport_photo_url: z.url("Invalid profile picture URL").optional(),
 });
