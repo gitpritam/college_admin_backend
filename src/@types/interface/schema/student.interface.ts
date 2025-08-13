@@ -5,7 +5,7 @@ export interface IStudent {
   first_name: string;
   middle_name?: string;
   last_name: string;
-  registration_number?: string;
+  registration_no?: string;
   roll_no: number;
   dob: Date;
   phone_number: string;

@@ -3,6 +3,7 @@ import getAllFacultyController from "./getAllFaculty.controller";
 import getSingleFacultyController from "./getSingleFaculty.controller";
 import updateFacultyController from "./updateFaculty.controller";
 import updatePermissionController from "./updatePermission.controller";
+import deleteFacultyController from "./deleteFaculty.controller";
 
 export {
   createFacultyController,
@@ -10,4 +11,5 @@ export {
   getAllFacultyController,
   updatePermissionController,
   updateFacultyController,
+  deleteFacultyController,
 };

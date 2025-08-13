@@ -24,7 +24,7 @@ const updateStudentController = AsyncHandler(
             email,
             guardian_name,
             guardian_phone_number,
-            gurdian_email,
+            guardian_email,
             current_address,
             permanent_address,
             department,
@@ -38,14 +38,14 @@ const updateStudentController = AsyncHandler(
         if (first_name)payload.first_name= first_name;
         if (middle_name)payload.middle_name=middle_name;
         if (last_name)payload.last_name=last_name;
-        if (registration_no)payload.registration_number=registration_no;
+        if (registration_no)payload.registration_no=registration_no;
         if (roll_no)payload.roll_no=roll_no;
         if (dob)payload.dob=dob;
         if (phone_number)payload.phone_number=phone_number;
         if (email)payload.email=email;
         if (guardian_name)payload.guardian_name=guardian_name;
         if (guardian_phone_number)payload.guardian_phone_number =guardian_phone_number;
-        if (gurdian_email)payload.guardian_email=gurdian_email;
+        if (guardian_email)payload.guardian_email=guardian_email;
         if (current_address)payload.current_address=current_address;
         if (permanent_address)payload.permanent_address=permanent_address;
         if (department)payload.department=department;
