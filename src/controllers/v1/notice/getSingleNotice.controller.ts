@@ -10,7 +10,9 @@ const getSingleNoticeController = AsyncHandler(
       return next(new CustomError(400, "Notice id is required"));
     }
 
-    const notice = await NoticeModel.findOne({ notice_id: id });
+    const notice = await NoticeModel.findOne({ notice_id: id }).populate(
+      "posted_by"
+    );
 
     if (!notice) {
       return next(new CustomError(404, `No notice found with this id: ${id}`));

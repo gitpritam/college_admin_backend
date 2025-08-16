@@ -1,9 +1,9 @@
-import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
 export interface INotice {
   notice_id: string;
   title: string;
   description: string;
   year: number;
-  posted_by: ObjectId;
+  posted_by: Types.ObjectId;
 }

@@ -10,7 +10,7 @@ import { string } from "zod/v4/classic/coerce.cjs";
 
 const regex = /^[A-Z]{2}\d{4}$/;
 const studentSchema = new mongoose.Schema<IStudent>(
-    {
+  {
     student_id: {
       type: String,
       unique: true,
@@ -36,60 +36,59 @@ const studentSchema = new mongoose.Schema<IStudent>(
       trim: true,
     },
     registration_no: {
-        type: String,
-        match: [regex, "Invalid registration number format"], 
+      type: String,
+      match: [regex, "Invalid registration number format"],
     },
     roll_no: {
-        type: Number,
-        required: true,
+      type: Number,
     },
     dob: {
-        type: Date,
-        required: true,
+      type: Date,
+      required: true,
     },
-      phone_number: {
-        type: String,
-        required: true,
-        unique: true,
-        validate: {
-            validator: function (i: string) {
-                return /^\+?[1-9]\d{1,14}$/.test(i);
-            },
-            message: function (props: any) {
-                return `${props.value} is not a valid phone number!`; 
+    phone_number: {
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: function (i: string) {
+          return /^\+?[1-9]\d{1,14}$/.test(i);
         },
-    },
+        message: function (props: any) {
+          return `${props.value} is not a valid phone number!`;
+        },
+      },
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true,
-        match: [/\S+@\S+\.\S+/, "Email is invalid"],
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      match: [/\S+@\S+\.\S+/, "Email is invalid"],
     },
     guardian_name: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     guardian_phone_number: {
-        type: String,
-        required: true,
-        unique: true,
-        validate: {
-            validator: function (i: string) {
-                return /^\+?[1-9]\d{1,14}$/.test(i);
-            },
-            message: function (props: any) {
-                return `${props.value} is not a valid phone number!`; 
-            },
+      type: String,
+      required: true,
+      unique: true,
+      validate: {
+        validator: function (i: string) {
+          return /^\+?[1-9]\d{1,14}$/.test(i);
         },
+        message: function (props: any) {
+          return `${props.value} is not a valid phone number!`;
+        },
+      },
     },
     guardian_email: {
-        type: String,
-         required: true,
-        unique: true,
-        trim: true,
-        match: [/\S+@\S+\.\S+/, "Email is invalid"],
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      match: [/\S+@\S+\.\S+/, "Email is invalid"],
     },
 
     current_address: {
@@ -103,28 +102,31 @@ const studentSchema = new mongoose.Schema<IStudent>(
     },
 
     department: {
-        type: String,
-        required: true,
-        minlength: [2,"Department should be at least 2 characters"],
-        maxlength: [5,"Department should be at most 5 characters"],
+      type: String,
+      required: true,
+      minlength: [2, "Department should be at least 2 characters"],
+      maxlength: [5, "Department should be at most 5 characters"],
     },
 
     year_of_admission: {
-        type: Number,
-        required: true,
+      type: Number,
+      required: true,
     },
 
-     year_of_passing: {
-        type: Number,
-     },
+    year_of_passing: {
+      type: Number,
+    },
 
     passport_photo_url: {
       type: String,
     },
-
+    remark: {
+      type: String,
+      maxlength: [200, "Remark should be at most 200 characters"],
     },
-    
-    { timestamps: true}
+  },
+
+  { timestamps: true }
 );
 
 const StudentModel = mongoose.model<IStudent>("students", studentSchema);

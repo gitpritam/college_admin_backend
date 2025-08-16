@@ -1,9 +1,7 @@
 import NoticeModel from "../../../../models/notice.model";
 
-export const generateNoticeID = async (
-  year: Number
-): Promise<string>=> {
- //Notice-25-001
+export const generateNoticeID = async (year: Number): Promise<string> => {
+  //Notice-25-001
   const noticeYear = year.toString();
   console.log(year);
 
@@ -20,10 +18,13 @@ export const generateNoticeID = async (
   if (!LastNoticeID) {
     newID = 1;
   } else {
-    newID = Number(LastNoticeID?.notice_id.split("-")[3]) + 1;
+    //["NOTICE","25","001"]
+    newID = Number(LastNoticeID?.notice_id.split("-")[2]) + 1;
   }
 
- const newNoticeID = `-NOTICE-${noticeYear.toString().slice(-2)}-${newID.toString().padStart(3, "0")}`;
+  const newNoticeID = `NOTICE-${noticeYear.slice(-2)}-${newID
+    .toString()
+    .padStart(3, "0")}`;
   console.log(newNoticeID);
-  return newNoticeID;;
+  return newNoticeID;
 };

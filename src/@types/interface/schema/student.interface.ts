@@ -6,7 +6,7 @@ export interface IStudent {
   middle_name?: string;
   last_name: string;
   registration_no?: string;
-  roll_no: number;
+  roll_no?: number;
   dob: Date;
   phone_number: string;
   email: string;
@@ -19,4 +19,5 @@ export interface IStudent {
   year_of_admission: number;
   year_of_passing?: number;
   passport_photo_url?: string;
+  remark?: string;
 }

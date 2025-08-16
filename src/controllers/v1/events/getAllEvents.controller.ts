@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import AsyncHandler from "../../utils/AsyncHandler";
-import EventModel from "../../models/event.model";
-import CustomError from "../../utils/CustomError";
+import AsyncHandler from "../../../utils/AsyncHandler";
+import EventModel from "../../../models/event.model";
+import CustomError from "../../../utils/CustomError";
 
 const getAllEventController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -15,10 +15,7 @@ const getAllEventController = AsyncHandler(
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i");
       filter = {
-        $or: [
-          { title: regex },
-          { event_id: regex },
-        ],
+        $or: [{ title: regex }, { event_id: regex }, { start_date: regex }],
       };
     }
 

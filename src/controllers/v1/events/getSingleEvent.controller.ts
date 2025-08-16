@@ -1,13 +1,13 @@
 import { NextFunction, Request, Response } from "express";
-import AsyncHandler from "../../utils/AsyncHandler";
-import CustomError from "../../utils/CustomError";
-import EventModel from "../../models/event.model";
+import AsyncHandler from "../../../utils/AsyncHandler";
+import CustomError from "../../../utils/CustomError";
+import EventModel from "../../../models/event.model";
 
 const getSingleEventController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
     if (!id) {
-      return next(new CustomError(400, "Evente id is required"));
+      return next(new CustomError(400, "Event id is required"));
     }
 
     const event = await EventModel.findOne({ event_id: id });

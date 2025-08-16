@@ -8,23 +8,18 @@ import StudentModel from "../../../models/student.model";
 const createStudentController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const {
-       first_name,
-       middle_name,
-       last_name,
-       registration_no,
-       roll_no,
-       dob,
-       phone_number,
-       email,
-       guardian_name,
-       guardian_phone_number,
-       guardian_email,
-       current_address,
-       permanent_address,
-       department,
-       year_of_admission,
-       year_of_passing,
-
+      first_name,
+      middle_name,
+      last_name,
+      dob,
+      phone_number,
+      email,
+      guardian_name,
+      guardian_phone_number,
+      guardian_email,
+      current_address,
+      permanent_address,
+      department,
     } = req.body;
 
     console.log(req.body);
@@ -32,8 +27,6 @@ const createStudentController = AsyncHandler(
       !(
         first_name &&
         last_name &&
-        registration_no &&
-        roll_no &&
         dob &&
         phone_number &&
         email &&
@@ -42,22 +35,18 @@ const createStudentController = AsyncHandler(
         guardian_email &&
         current_address &&
         permanent_address &&
-        department &&
-        year_of_admission &&
-        year_of_passing 
+        department
       )
     ) {
       return next(new CustomError(400, "Required fields are missing"));
     }
-
-    const ID = await generateStudentID((year_of_admission), department);
+    const year_of_admission = new Date().getFullYear();
+    const ID = await generateStudentID(year_of_admission, department);
 
     const payload: IStudent = {
       student_id: ID,
       first_name,
       last_name,
-      registration_no,
-      roll_no,
       dob: new Date(dob),
       phone_number,
       email,
@@ -68,8 +57,6 @@ const createStudentController = AsyncHandler(
       permanent_address,
       department,
       year_of_admission,
-      year_of_passing,
-
     };
     if (middle_name) payload.middle_name = middle_name;
 

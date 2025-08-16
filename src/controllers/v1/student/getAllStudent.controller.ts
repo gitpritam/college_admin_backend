@@ -5,6 +5,7 @@ import CustomError from "../../../utils/CustomError";
 
 const getAllStudentController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    //searching, pagination
     const students = await StudentModel.find();
     if (students.length === 0) {
       return next(new CustomError(404, "No students found"));

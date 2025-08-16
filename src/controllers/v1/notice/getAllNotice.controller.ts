@@ -15,15 +15,12 @@ const getAllNoticeController = AsyncHandler(
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i");
       filter = {
-        $or: [
-          { title: regex },
-          { notice_id: regex },
-          { year: regex },
-        ],
+        $or: [{ title: regex }, { notice_id: regex }, { year: regex }],
       };
     }
 
     const noticeData = await NoticeModel.find({ filter })
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNumber);
 
