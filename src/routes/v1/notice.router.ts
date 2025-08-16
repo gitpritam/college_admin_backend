@@ -12,3 +12,5 @@ NoticeRouter.post(
   validateRequest(noticeValidationSchema),
   createNoticeController
 );
+
+export default NoticeRouter;
