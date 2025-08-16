@@ -20,7 +20,10 @@ export const facultyValidationSchema = z.object({
     .min(2, "Last name should be at least 2 characters")
     .max(20, "Last name should be at most 20 characters"),
 
-  dob: z.coerce.date({ message: "Date of birth must be a valid date" }),
+  dob: z.string().regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "Dob must be in YYYY-MM-DD format"
+  ),
 
   phone_number: z
     .string()
@@ -64,7 +67,10 @@ export const facultyValidationSchema = z.object({
       message: "Invalid role",
     }),
 
-  joining_date: z.coerce.date({ message: "Joining date must be a valid date" }),
+  joining_date: z.string().regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "Joining date must be in YYYY-MM-DD format"
+  ),
 
   notice_permission: z.boolean().default(false),
   event_permission: z.boolean().default(false),

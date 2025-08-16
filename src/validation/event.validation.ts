@@ -14,10 +14,16 @@ export const eventValidationSchema = z.object({
     .max(200, "Description should be at most 200 characters"),
 
     start_date: z
-    .date(),
+    .string().regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "start_date must be in YYYY-MM-DD format"
+  ),
 
-    end_date: z
-    .date(),
+    end_date: 
+    z.string().regex(
+    /^\d{4}-\d{2}-\d{2}$/,
+    "End_date must be in YYYY-MM-DD format"
+  ),
 
     start_time: z
     .string(),
