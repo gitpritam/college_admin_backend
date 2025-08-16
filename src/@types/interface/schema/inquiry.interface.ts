@@ -5,7 +5,7 @@
 //   ADMISSION = "admission",
 //   OTHERS = "others",
 // }
-
+ 
 import { InquiryCategoryTypes } from "../../types/inquiryTypes.type";
 
 export default interface IInquiry {

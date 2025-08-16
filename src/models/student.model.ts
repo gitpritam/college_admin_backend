@@ -35,7 +35,7 @@ const studentSchema = new mongoose.Schema<IStudent>(
       required: true,
       trim: true,
     },
-    registration_number: {
+    registration_no: {
         type: String,
         match: [regex, "Invalid registration number format"], 
     },
