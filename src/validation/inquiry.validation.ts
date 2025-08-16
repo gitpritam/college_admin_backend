@@ -1,6 +1,6 @@
 import z, { string, ZodObject } from "zod";
 
-export const noticeValidationSchema = z.object({
+export const inquiryValidationSchema = z.object({
     
     type: z
     .string(),

@@ -1,6 +1,6 @@
 import z, { string, ZodObject } from "zod";
 
-export const noticeValidationSchema = z.object({
+export const eventValidationSchema = z.object({
     event_id: z.string().optional(),
 
     title: z

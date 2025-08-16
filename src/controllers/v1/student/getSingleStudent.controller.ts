@@ -10,7 +10,9 @@ const getSingleStudentController = AsyncHandler(
       return next(new CustomError(400, "Student id is required"));
     }
 
-    const student = await StudentModel.findOne({ student_id: id })
+    const student = await StudentModel.findOne({ student_id: id }).populate(
+      "posted_by"
+    );
 
     if (!student) {
       return next(new CustomError(404, `No student found with this id: ${id}`));

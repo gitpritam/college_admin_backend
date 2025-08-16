@@ -10,7 +10,9 @@ const getSingleEventController = AsyncHandler(
       return next(new CustomError(400, "Event id is required"));
     }
 
-    const event = await EventModel.findOne({ event_id: id });
+    const event = await EventModel.findOne({ event_id: id }).populate(
+      "posted_by"
+    );
 
     if (!event) {
       return next(new CustomError(404, `No event found with this id: ${id}`));
