@@ -3,7 +3,6 @@ import AsyncHandler from "../../../utils/AsyncHandler";
 import CustomError from "../../../utils/CustomError";
 import { uploadImage } from "../../../utils/cloudinary/uploadImage";
 import FacultyModel from "../../../models/faculty.model";
-import getPublicId from "../../../utils/cloudinary/getPublicId";
 import { deleteFile } from "../../../utils/cloudinary/deleteFile";
 
 const updateProfilePhotoController = AsyncHandler(

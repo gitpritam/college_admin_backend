@@ -23,11 +23,13 @@ const login = AsyncHandler(
     let isPasswordvalid = false;
     if (user.password)
       isPasswordvalid = await comparePassword(password, user.password);
-    if (!isPasswordvalid ) {
+    if (!isPasswordvalid) {
       return next(new CustomError(401, "Wrong credentials"));
     }
-    if(!user.account_status){
-      return next(new CustomError(401, "Account disabled! Please contact authority."));
+    if (!user.account_status) {
+      return next(
+        new CustomError(401, "Account disabled! Please contact authority.")
+      );
     }
 
     const payload = {
