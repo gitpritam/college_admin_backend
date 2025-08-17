@@ -6,6 +6,7 @@ import {
   getSingleFacultyController,
   updateFacultyController,
   updatePermissionController,
+  updateProfilePhotoController,
 } from "../../controllers/v1/faculty";
 import { validateRequest } from "../../middleware/validate.middleware";
 import { facultyValidationSchema } from "../../validation/faculty.validation";
@@ -39,6 +40,12 @@ FacultyRouter.post(
 );
 
 FacultyRouter.patch("/:id", authorize(["admin"]), updateFacultyController);
+FacultyRouter.patch(
+  "/profile-photo/:id",
+  upload.single("profile_picture"),
+  authorize(["admin"]),
+  updateProfilePhotoController
+);
 
 //faculty/permission/:id
 FacultyRouter.patch(

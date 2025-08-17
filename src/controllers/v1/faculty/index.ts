@@ -4,6 +4,7 @@ import getSingleFacultyController from "./getSingleFaculty.controller";
 import updateFacultyController from "./updateFaculty.controller";
 import updatePermissionController from "./updatePermission.controller";
 import deleteFacultyController from "./deleteFaculty.controller";
+import updateProfilePhotoController from "./updateProfilePhoto.controller";
 
 export {
   createFacultyController,
@@ -12,4 +13,5 @@ export {
   updatePermissionController,
   updateFacultyController,
   deleteFacultyController,
+  updateProfilePhotoController,
 };

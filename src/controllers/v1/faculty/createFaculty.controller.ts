@@ -69,7 +69,7 @@ const createFacultyController = AsyncHandler(
       });
 
       if (!imageUploadResponse || !imageUploadResponse.secure_url) {
-        throw new CustomError(500, "Image upload failed");
+        return next(new CustomError(500, "Image upload failed"));
       }
 
       imageUrl = imageUploadResponse.secure_url;
