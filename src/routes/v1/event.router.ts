@@ -12,8 +12,8 @@ const eventRouter = Router();
 const upload = multer();
 
 eventRouter.post("/",authorize(["admin", "faculty"]),validateRequest(eventValidationSchema),createEventController);
-eventRouter.get("/:id", authorize(["admin","faculty"]), deleteEventController);
 eventRouter.get("/", getAllEventController);
 eventRouter.get("/:id", getSingleEventController);
+eventRouter.delete("/:id", authorize(["admin","faculty"]), deleteEventController);
 
 export default eventRouter;

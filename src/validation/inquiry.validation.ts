@@ -1,8 +1,9 @@
 import z, { string, ZodObject } from "zod";
+import { category } from "../models/inquiry.model";
 
 export const inquiryValidationSchema = z.object({
     
-    type: z
+    category: z
     .string(),
 
     name: z
@@ -31,6 +32,6 @@ export const inquiryValidationSchema = z.object({
     course: z
     .string()
     .min(2, "course should be at least 2 characters")
-    .max(20, "course should be at most 20 characters"),
+    .max(20, "course should be at most 20 characters").optional(),
 
 })

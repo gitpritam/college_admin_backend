@@ -25,8 +25,8 @@ const createInquiryController = AsyncHandler(
         subject &&
         description &&
         phone_number &&
-        email &&
-        course 
+        email 
+        //course 
       )
     ) {
       return next(new CustomError(400, "Required fields are missing"));

@@ -11,11 +11,12 @@ import { studentValidationSchema } from "../../validation/student.validation";
 
 
 const StudentRouter = Router();
+const upload = multer();
 
 StudentRouter.get("/", getAllStudentController);
-StudentRouter.post("/",authorize(["admin", "faculty"]),validateRequest(studentValidationSchema),createStudentController);
-StudentRouter.get("/:id",authorize(["admin","faculty"]),deleteStudentController);
+StudentRouter.post("/",upload.none(),authorize(["admin", "faculty"]),validateRequest(studentValidationSchema),createStudentController);
 StudentRouter.get("/:id", getSingleStudentController);
-StudentRouter.get("/", updateStudentController);
+StudentRouter.patch("/:id", updateStudentController);
+StudentRouter.delete("/:id",authorize(["admin","faculty"]),deleteStudentController);
 
 export default StudentRouter;

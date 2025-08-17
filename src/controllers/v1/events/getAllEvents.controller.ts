@@ -19,7 +19,7 @@ const getAllEventController = AsyncHandler(
       };
     }
 
-    const eventData = await EventModel.find({ filter })
+    const eventData = await EventModel.find( filter )
       .skip(skip)
       .limit(limitNumber);
 

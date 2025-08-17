@@ -58,7 +58,7 @@ const updateStudentController = AsyncHandler(
       { new: true, runValidators: true }
     );
 
-    if (updatedStudent) {
+    if (!updatedStudent) {
       return next(new CustomError(404, "Failed to update student"));
     }
 

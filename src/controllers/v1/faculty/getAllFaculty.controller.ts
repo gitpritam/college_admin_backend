@@ -27,7 +27,7 @@ const getAllFacultyController = AsyncHandler(
       };
     }
 
-    const facultyData = await FacultyModel.find({ filter })
+    const facultyData = await FacultyModel.find( filter)
       .skip(skip)
       .limit(limitNumber)
       .select("-password -__v");

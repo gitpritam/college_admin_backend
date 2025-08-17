@@ -4,7 +4,8 @@ import CustomError from "../../../utils/CustomError";
 import { generateEventID } from "./id/generateEventID";
 import { IEvent } from "../../../@types/interface/schema/event.interface";
 import EventModel from "../../../models/event.model";
-import { start } from "repl";
+import { Types } from "mongoose";
+import FacultyModel from "../../../models/faculty.model";
 
 const createEventController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -16,10 +17,18 @@ const createEventController = AsyncHandler(
       start_time,
       end_time,
       venue,
-      posted_by,
     } = req.body;
-
+const {
+  user
+}= req;
     console.log(req.body);
+    
+    const faculty = await FacultyModel.findById(user?._id);
+    if (!faculty?.event_permission) {
+      return next(
+        new CustomError(403, "You do not have permission to create a event")
+      );
+    }
     if (
       !(
         title &&
@@ -28,8 +37,7 @@ const createEventController = AsyncHandler(
         end_date &&
         start_time &&
         end_time &&
-        venue &&
-        posted_by
+        venue
       )
     ) {
       return next(new CustomError(400, "Required fields are missing"));
@@ -46,7 +54,7 @@ const createEventController = AsyncHandler(
       start_time,
       end_time,
       venue,
-      posted_by,
+      posted_by: user?._id as Types.ObjectId,
     };
 
     const newEvent = await EventModel.create(payload);

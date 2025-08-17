@@ -1,4 +1,5 @@
 import { ObjectId } from "mongoose";
+import { Types } from "mongoose";
 
 export interface IEvent {
   event_id: string;
@@ -9,5 +10,5 @@ export interface IEvent {
   start_time: string;
   end_time?: string;
   venue: string;
-  posted_by: ObjectId;
+  posted_by: Types.ObjectId;
 }

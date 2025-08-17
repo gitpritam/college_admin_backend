@@ -11,9 +11,7 @@ const getSingleInquiryController = AsyncHandler(
       return next(new CustomError(400, "Inquiry ID is required"));
     }
 
-    const inquiry = await InquiryModel.findById(id).populate(
-        "posted_by"
-    );
+    const inquiry = await InquiryModel.findById(id)
 
     if (!inquiry) {
       return next(new CustomError(404, `No inquiry found with this id: ${id}`));

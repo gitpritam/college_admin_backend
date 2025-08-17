@@ -19,7 +19,7 @@ const getAllNoticeController = AsyncHandler(
       };
     }
 
-    const noticeData = await NoticeModel.find({ filter })
+    const noticeData = await NoticeModel.find(filter)
       .sort({ createdAt: -1 })
       .skip(skip)
       .limit(limitNumber);

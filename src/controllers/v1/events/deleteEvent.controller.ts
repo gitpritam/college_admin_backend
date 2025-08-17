@@ -10,10 +10,10 @@ const deleteEventController = AsyncHandler(
     const event = await EventModel.findOneAndDelete({
       event_id: id,
     });
-    if (event) {
+    if (!event) {
       return next(new CustomError(404, "Event not found"));
     }
-    return res.status(204).json({ message: "Event hard deleted successfully" });
+    return res.status(200).json({ message: "Event deleted successfully" });
   }
 );
 

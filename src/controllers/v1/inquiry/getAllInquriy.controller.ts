@@ -19,7 +19,7 @@ const getAllInquiryController = AsyncHandler(
       };
     }
 
-    const InquiryData = await InquiryModel.find({ filter })
+    const InquiryData = await InquiryModel.find(filter)
       .skip(skip)
       .limit(limitNumber);
 

@@ -23,12 +23,11 @@ export const studentValidationSchema = z.object({
     
   registration_no: z
     .string()
-    .regex (/^[A-Z]{2}\d{4}$/, "Invalid registration number format"), 
+    .regex (/^[A-Z]{2}\d{4}$/, "Invalid registration number format").optional(), 
     
    roll_no: z
     .number()
-    .min(2, "Last name should be at least 2 characters")
-    .max(60, "Last name should be at most 20 characters"),
+    .max(60, "Last name should be at most 20 characters").optional(),
 
   dob: z.string().regex(
     /^\d{4}-\d{2}-\d{2}$/,
@@ -64,9 +63,9 @@ export const studentValidationSchema = z.object({
     .min(2, "Department should be at least 2 characters")
     .max(5, "Department should be at most 5 characters"),
 
-    year_of_admission: z.coerce.number({ message: "year of admission must be a valid" }),
+    year_of_admission: z.coerce.number({ message: "year of admission must be a valid" }).optional(),
 
-    year_of_passout: z.coerce.number({ message: "year of paassing must be a valid" }),
+    year_of_passout: z.coerce.number({ message: "year of paassing must be a valid" }).optional(),
     
     passport_photo_url: z.url("Invalid profile picture URL").optional(),
 });

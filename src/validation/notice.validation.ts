@@ -18,6 +18,6 @@ export const noticeValidationSchema = z.object({
     posted_by: z
     .string()
     .min(2, "It should be at least 2 characters")
-    .max(20, "It should be at most 20 characters"),
+    .max(20, "It should be at most 20 characters").optional(),
 
 })

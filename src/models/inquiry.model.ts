@@ -42,7 +42,6 @@ const InquirySchema = new mongoose.Schema<IInquiry>(
     phone_number: {
       type: String,
       required: true,
-      unique: true,
       validate: {
         validator: function (i: string) {
           return /^\+?[1-9]\d{1,14}$/.test(i);
@@ -55,7 +54,6 @@ const InquirySchema = new mongoose.Schema<IInquiry>(
     email: {
       type: String,
       required: true,
-      unique: true,
       trim: true,
       match: [/\S+@\S+\.\S+/, "Email is invalid"],
     },

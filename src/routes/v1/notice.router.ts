@@ -18,8 +18,7 @@ NoticeRouter.post(
   createNoticeController
 );
 
-NoticeRouter.get("/:id", authorize(["admin","faculty"]), deleteNoticeController);
 NoticeRouter.get("/", getAllNoticeController);
 NoticeRouter.get("/:id", getSingleNoticeController);
-
+NoticeRouter.delete("/:id", authorize(["admin","faculty"]), deleteNoticeController);
 export default NoticeRouter;
