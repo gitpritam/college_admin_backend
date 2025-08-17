@@ -11,17 +11,29 @@ import { validateRequest } from "../../middleware/validate.middleware";
 import { facultyValidationSchema } from "../../validation/faculty.validation";
 import { authorize } from "../../middleware/auth.middleware";
 import deleteFacultyController from "../../controllers/v1/faculty/deleteFaculty.controller";
+import storage from "../../config/multer.config";
 
 const FacultyRouter = Router();
-const upload = multer();
+export const upload = multer({
+  storage: storage,
+  limits: { fileSize: 0.5 * 1024 * 1024 }, // 500 kb
+  fileFilter: (req, file, cb) => {
+    const allowedMimeTypes = ["image/jpg", "image/jpeg"];
+    if (allowedMimeTypes.includes(file.mimetype)) {
+      cb(null, true);
+    } else {
+      cb(new Error("Only .jpg .jpeg files are allowed"));
+    }
+  },
+});
 
 FacultyRouter.get("/", getAllFacultyController);
 FacultyRouter.get("/:id", getSingleFacultyController);
 
 FacultyRouter.post(
   "/",
-  upload.none(),
-  authorize(["admin", "staff"]),
+  upload.single("profile_picture"),
+  // authorize(["admin","faculty", "staff"]),
   validateRequest(facultyValidationSchema),
   createFacultyController
 );

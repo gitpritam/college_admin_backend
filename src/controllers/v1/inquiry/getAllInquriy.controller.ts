@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import AsyncHandler from "../../../utils/AsyncHandler";
-import InquiryModel, { category } from "../../../models/inquiry.model";
+import InquiryModel from "../../../models/inquiry.model";
 import CustomError from "../../../utils/CustomError";
 
 const getAllInquiryController = AsyncHandler(
