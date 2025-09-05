@@ -6,14 +6,26 @@ import connectDB from "./config/db.config";
 import MainRouter from "./routes";
 import CustomError from "./utils/CustomError";
 import globalErrorHandler from "./middleware/globalErrorHandler.middleware";
+import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
+
+const corsOptions = {
+  origin: [
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    "http://localhost:4173",
+  ],
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cors({ origin: "*", credentials: true }));
-// app.use(cookieParser());
+
+app.use(cookieParser());
 
 app.use("/api", MainRouter); //localhost:5000/api
 
