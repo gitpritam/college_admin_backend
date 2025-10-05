@@ -1,12 +1,6 @@
 import mongoose from "mongoose";
 import type { IStudent } from "../@types/interface/schema/student.interface";
 import AddressSchema from "./address.schema";
-import { match } from "assert";
-import { required } from "zod/v4/core/util.cjs";
-import { type } from "os";
-import { datetime } from "zod/v4/core/regexes.cjs";
-import { date, number } from "zod";
-import { string } from "zod/v4/classic/coerce.cjs";
 
 const regex = /^[A-Z]{2}\d{4}$/;
 const studentSchema = new mongoose.Schema<IStudent>(
@@ -105,7 +99,7 @@ const studentSchema = new mongoose.Schema<IStudent>(
       type: String,
       required: true,
       minlength: [2, "Department should be at least 2 characters"],
-      maxlength: [5, "Department should be at most 5 characters"],
+      maxlength: [50, "Department should be at most 50 characters"],
     },
 
     year_of_admission: {

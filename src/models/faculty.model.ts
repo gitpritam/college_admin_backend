@@ -112,7 +112,7 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       required: true,
       trim: true,
       minlength: [2, "Department should be at least 2 characters"],
-      maxlength: [5, "Department should be at most 50 characters"],
+      maxlength: [50, "Department should be at most 50 characters"],
     },
     profile_picture_url: {
       type: String,

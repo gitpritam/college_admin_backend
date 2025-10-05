@@ -80,5 +80,5 @@ export const facultyValidationSchema = z.object({
     .min(2, "Department should be at least 2 characters")
     .max(50, "Department should be at most 50 characters"),
 
-  profile_picture_url: z.url("Invalid profile picture URL").optional(),
+  profile_picture: z.file().optional(),
 });

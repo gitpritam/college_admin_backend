@@ -49,6 +49,15 @@ const createFacultyController = AsyncHandler(
       return next(new CustomError(400, "Required fields are missing"));
     }
 
+    //checking for duplication
+    const existingFaculty = await FacultyModel.findOne({
+      $or: [{ email }, { phone_number }],
+    });
+
+    if (existingFaculty) {
+      return next(new CustomError(409, "Faculty with this email or phone number already exists"));
+    }
+
     //generate id
     const ID = await generateFacultyID(new Date(joining_date), department);
 
