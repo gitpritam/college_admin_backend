@@ -82,8 +82,8 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       type: String,
       required: true,
       trim: true,
-      minlength: [3, "Experience  should be at least 3 characters"],
-      maxlength: [200, "Experience should be at most 200 characters"],
+      minlength: [1, "Experience  should be at least 1 characters"],
+      maxlength: [50, "Experience should be at most 50 characters"],
     },
     password: {
       type: String,

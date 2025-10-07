@@ -51,8 +51,8 @@ export const facultyValidationSchema = z.object({
 
   experience: z
     .string()
-    .min(3, "Experience should be at least 3 characters")
-    .max(200, "Experience should be at most 200 characters"),
+    .min(1, "Experience should be at least 1 characters")
+    .max(50, "Experience should be at most 50 characters"),
 
   password: z
     .string()
