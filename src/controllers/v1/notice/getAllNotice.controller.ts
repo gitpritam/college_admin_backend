@@ -14,8 +14,15 @@ const getAllNoticeController = AsyncHandler(
     let filter = {};
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i");
+      let filterQuery: Array<{ title?: RegExp; notice_id?: RegExp; year?: RegExp }> = [
+        { title: regex },
+        { notice_id: regex }
+      ];
+      if (!isNaN(Number(query))) {
+        filterQuery.push({ year: regex });
+      }
       filter = {
-        $or: [{ title: regex }, { notice_id: regex }, { year: regex }],
+        $or: filterQuery
       };
     }
 
