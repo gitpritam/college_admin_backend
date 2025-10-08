@@ -6,17 +6,20 @@ export const generateNoticeID = async (year: Number): Promise<string> => {
   console.log(year);
 
   const LastNoticeID = await NoticeModel.findOne({
-    createdAt: {
-      $gte: new Date(`${year}-01-01`),
-      $lte: new Date(`${year}-12-31`),
-    },
+    // createdAt: {
+    //   $gte: new Date(`${noticeYear}-01-01`),
+    //   $lte: new Date(`${noticeYear}-12-31`),
+    // },
+    year
   })
     .sort({ createdAt: -1 })
     .select("notice_id");
+  console.log(LastNoticeID);
 
   let newID: number;
   if (!LastNoticeID) {
     newID = 1;
+    console.log("This line work")
   } else {
     //["NOTICE","25","001"]
     newID = Number(LastNoticeID?.notice_id.split("-")[2]) + 1;
