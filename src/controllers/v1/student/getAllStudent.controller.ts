@@ -11,7 +11,7 @@ const getAllStudentController = AsyncHandler(
     const pageNumber = (page && parseInt(page as string)) || 1;
     const limitNumber = (limit && parseInt(limit as string)) || 10;
     const skip = (pageNumber - 1) * limitNumber;
-     let filter = {};
+    let filter = {};
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i"); 
       filter = {
@@ -25,17 +25,25 @@ const getAllStudentController = AsyncHandler(
         ],
       };
     }
+    const studentData = await StudentModel.find( filter )
+      .skip(skip)
+      .limit(limitNumber);
 
-    //searching, pagination
-    const students = await StudentModel.find();
-    if (students.length === 0) {
-      return next(new CustomError(404, "No students found"));
+    if (studentData.length === 0 || !studentData) {
+      return next(new CustomError(404, "No student found."));
     }
 
-    return res.status(200).json({
+      const totalCount = await StudentModel.countDocuments(filter);
+      return res.status(200).json({
       success: true,
-      message: "Students fetched successfully",
-      result: students,
+      message: "Student data found",
+      result: {
+        data: studentData,
+        totalCount,
+        currentPage: pageNumber,
+        totalPages: Math.ceil(totalCount / limitNumber),
+        limit: limitNumber,
+      },
     });
   }
 );
