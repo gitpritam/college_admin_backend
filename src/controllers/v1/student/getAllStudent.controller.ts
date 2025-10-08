@@ -5,6 +5,27 @@ import CustomError from "../../../utils/CustomError";
 
 const getAllStudentController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+
+    const { query = "", page = 1, limit = 10 } = req.query;
+
+    const pageNumber = (page && parseInt(page as string)) || 1;
+    const limitNumber = (limit && parseInt(limit as string)) || 10;
+    const skip = (pageNumber - 1) * limitNumber;
+     let filter = {};
+    if ((query as string).trim()) {
+      const regex = new RegExp(query as string, "i"); 
+      filter = {
+        $or: [
+          { name: regex },
+          { student_id: regex },
+          { phone_number: regex },
+          { email: regex },
+          { department: regex },
+          {dob: regex},
+        ],
+      };
+    }
+
     //searching, pagination
     const students = await StudentModel.find();
     if (students.length === 0) {
@@ -14,7 +35,7 @@ const getAllStudentController = AsyncHandler(
     return res.status(200).json({
       success: true,
       message: "Students fetched successfully",
-      data: students,
+      result: students,
     });
   }
 );
