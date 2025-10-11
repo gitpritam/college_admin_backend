@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import AsyncHandler from "../../../utils/AsyncHandler";
 import StudentModel from "../../../models/student.model";
 import CustomError from "../../../utils/CustomError";
+import { regexes } from "zod";
 
 const getAllStudentController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -14,17 +15,21 @@ const getAllStudentController = AsyncHandler(
     let filter = {};
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i"); 
-      filter = {
-        $or: [
-          { name: regex },
-          { student_id: regex },
-          { phone_number: regex },
-          { email: regex },
-          { department: regex },
-          {dob: regex},
-        ],
-      };
+      let filterQuery: Array< {name?: RegExp,student_id?: RegExp,phone_number?: RegExp,email?: RegExp, department?: RegExp,dob?: RegExp}>=[
+        {name: regex},
+        {student_id: regex},
+        {phone_number: regex},
+        {email: regex},
+        {department: regex},
+        {dob: regex},
+      ];
+      if (!isNaN(Number(query))){
+        filterQuery.push({name: regex});
     }
+    filter={
+      $or: filterQuery
+    };
+  }
     const studentData = await StudentModel.find( filter )
       .skip(skip)
       .limit(limitNumber);
@@ -34,6 +39,7 @@ const getAllStudentController = AsyncHandler(
     }
 
       const totalCount = await StudentModel.countDocuments(filter);
+
       return res.status(200).json({
       success: true,
       message: "Student data found",
