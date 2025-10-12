@@ -31,6 +31,7 @@ const getAllStudentController = AsyncHandler(
     };
   }
     const studentData = await StudentModel.find( filter )
+
       .skip(skip)
       .limit(limitNumber);
 
