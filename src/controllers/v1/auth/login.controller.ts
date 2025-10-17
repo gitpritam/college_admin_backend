@@ -49,11 +49,16 @@ const login = AsyncHandler(
       maxAge: parseInt(jwtExpiry) * 24 * 60 * 60 * 1000, // 30 days // ms
     });
 
+    // Convert to plain object and remove password
+    const userObject = user.toObject();
+    delete userObject.password;
+
     res.status(200).json({
       success: true,
       message: "Login successful",
       result: {
         token,
+        user: userObject,
       },
     });
   }
