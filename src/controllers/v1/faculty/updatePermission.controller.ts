@@ -21,8 +21,8 @@ const updatePermissionController = AsyncHandler(
       notice_permission?: boolean;
       event_permission?: boolean;
     } = {};
-    if (notice_permission) payload.notice_permission = notice_permission;
-    if (event_permission) payload.event_permission = event_permission;
+    payload.notice_permission = notice_permission;
+    payload.event_permission = event_permission;
 
     const updatedFaculty = await FacultyModel.findOneAndUpdate(
       { faculty_id: id },
