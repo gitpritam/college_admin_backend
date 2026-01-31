@@ -8,17 +8,14 @@ import CustomError from "./utils/CustomError";
 import globalErrorHandler from "./middleware/globalErrorHandler.middleware";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import { createServer } from "node:http";
+import { Server } from "socket.io";
+import corsOptions from "./config/cors.config";
+import { initSocket } from "./config/socket.config";
 
 const app = express();
+const server = createServer(app);
 
-const corsOptions = {
-  origin: [
-    "http://127.0.0.1:5173",
-    "http://localhost:5173",
-    "http://localhost:4173",
-  ],
-  credentials: true,
-};
 app.use(cors(corsOptions));
 
 // Middleware
@@ -31,7 +28,7 @@ app.use("/api", MainRouter); //localhost:5000/api
 app.use((req: Request, res: Response, next: NextFunction) => {
   const err = new CustomError(
     404,
-    `Can't find ${req.originalUrl} in this server`
+    `Can't find ${req.originalUrl} in this server`,
   );
   next(err);
 });
@@ -44,4 +41,6 @@ connectDB();
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-const server = app.listen(PORT, () => console.log(`Server online: ${PORT}`));
+server.listen(PORT, () => console.log(`Server online: ${PORT}`));
+
+initSocket(server);

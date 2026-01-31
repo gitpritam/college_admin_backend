@@ -45,7 +45,7 @@ const login = AsyncHandler(
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",
-      sameSite: "none", //strict, lax, none
+      sameSite: process.env.NODE_ENV === "prod" ? "none" : "lax", //strict, lax, none
       maxAge: parseInt(jwtExpiry) * 24 * 60 * 60 * 1000, // 30 days // ms
     });
 
