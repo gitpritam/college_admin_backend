@@ -28,7 +28,7 @@ const login = AsyncHandler(
     }
     if (!user.account_status) {
       return next(
-        new CustomError(401, "Account disabled! Please contact authority.")
+        new CustomError(401, "Account disabled! Please contact authority."),
       );
     }
 
@@ -45,7 +45,7 @@ const login = AsyncHandler(
     res.cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "prod",
-      sameSite: "strict",
+      sameSite: "none", //strict, lax, none
       maxAge: parseInt(jwtExpiry) * 24 * 60 * 60 * 1000, // 30 days // ms
     });
 
@@ -61,7 +61,7 @@ const login = AsyncHandler(
         user: userObject,
       },
     });
-  }
+  },
 );
 
 export default login;
