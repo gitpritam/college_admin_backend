@@ -4,6 +4,7 @@ import CustomError from "../../../utils/CustomError";
 import { generateNoticeID } from "./id/generateNoticeID";
 import { INotice } from "../../../@types/interface/schema/notice.interface";
 import NoticeModel from "../../../models/notice.model";
+import NotificationModel from "../../../models/notification.model";
 import FacultyModel from "../../../models/faculty.model";
 import { Types } from "mongoose";
 import { getIO } from "../../../config/socket.config";
@@ -42,25 +43,35 @@ const createNoticeController = AsyncHandler(
       return next(new CustomError(400, "Failed to create Notice"));
     }
 
+    // Create notification in database
+    const notificationPayload: Partial<INotification> = {
+      type: "notice",
+      title: `New Notice: ${newNotice.title}`,
+      message: newNotice.description,
+      timestamp: new Date(),
+      read: false,
+      priority: "high",
+      metadata: {
+        noticeId: newNotice._id?.toString(),
+        link: `/notices/${newNotice.notice_id}`,
+      },
+    };
+
+    const newNotification = await NotificationModel.create(notificationPayload);
+
     res.status(201).json({
       success: true,
       message: "Notice created successfully",
       result: newNotice,
     });
 
-    const notificationPayload: INotification = {
-      id: newNotice.notice_id,
-      type: "notice",
-      title: `New Notice: ${newNotice.title}`,
-      message: newNotice.description,
-      timestamp: new Date(),
-      read: false,
-      metadata: {
-        noticeId: newNotice.notice_id,
-      },
-    };
-
-    io.emit("notice:new", notificationPayload);
+    // Emit real-time notification via WebSocket
+    if (newNotification) {
+      io.emit("notice:new", {
+        _id: newNotification._id,
+        ...notificationPayload,
+      });
+    }
   },
 );
 

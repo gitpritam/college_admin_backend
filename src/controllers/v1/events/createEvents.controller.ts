@@ -4,11 +4,15 @@ import CustomError from "../../../utils/CustomError";
 import { generateEventID } from "./id/generateEventID";
 import { IEvent } from "../../../@types/interface/schema/event.interface";
 import EventModel from "../../../models/event.model";
+import NotificationModel from "../../../models/notification.model";
 import { Types } from "mongoose";
 import FacultyModel from "../../../models/faculty.model";
+import { getIO } from "../../../config/socket.config";
+import { INotification } from "../../../@types/interface/schema/notification.interface";
 
 const createEventController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    const io = getIO();
     const {
       title,
       description,
@@ -18,15 +22,13 @@ const createEventController = AsyncHandler(
       end_time,
       venue,
     } = req.body;
-const {
-  user
-}= req;
+    const { user } = req;
     console.log(req.body);
-    
+
     const faculty = await FacultyModel.findById(user?._id);
     if (!faculty?.event_permission) {
       return next(
-        new CustomError(403, "You do not have permission to create a event")
+        new CustomError(403, "You do not have permission to create a event"),
       );
     }
     if (
@@ -63,12 +65,36 @@ const {
       return next(new CustomError(400, "Failed to create Event"));
     }
 
-    return res.status(201).json({
+    // Create notification in database
+    const notificationPayload: Partial<INotification> = {
+      type: "event",
+      title: `New Event: ${newEvent.title}`,
+      message: newEvent.description,
+      timestamp: new Date(),
+      read: false,
+      priority: "high",
+      metadata: {
+        eventId: newEvent._id?.toString(),
+        link: `/events/${newEvent.event_id}`,
+      },
+    };
+
+    const newNotification = await NotificationModel.create(notificationPayload);
+
+    res.status(201).json({
       success: true,
       message: "Event created successfully",
       result: newEvent,
     });
-  }
+
+    // Emit real-time notification via WebSocket
+    if (newNotification) {
+      io.emit("event:new", {
+        _id: newNotification._id,
+        ...notificationPayload,
+      });
+    }
+  },
 );
 
 export default createEventController;
