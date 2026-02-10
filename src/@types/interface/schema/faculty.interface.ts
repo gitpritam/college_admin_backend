@@ -22,4 +22,5 @@ export interface IFaculty {
   department: string;
   profile_picture_url?: string;
   account_status?: boolean;
+  reset_token?: string;
 }

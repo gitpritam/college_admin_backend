@@ -121,8 +121,13 @@ const FacultySchema = new mongoose.Schema<IFaculty>(
       type: Boolean,
       default: true,
     },
+    reset_token: {
+      type: String,
+      required: false,
+      default: null,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const FacultyModel = mongoose.model<IFaculty>("faculties", FacultySchema);
