@@ -5,7 +5,7 @@ const env = process.env.NODE_ENV?.trim().toLowerCase() || "dev";
 const DB_CONNECTION_URI: Record<string, { uri: string }> = {
   local: { uri: process.env.DB_LOCAL || "" },
   dev: { uri: process.env.DB_DEV || "" },
-  prod: { uri: process.env.prod || "" },
+  prod: { uri: process.env.DB_PROD || "" },
 };
 
 // Validate the selected environment
