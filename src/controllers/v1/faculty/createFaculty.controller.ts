@@ -7,9 +7,11 @@ import FacultyModel from "../../../models/faculty.model";
 import hashPassword from "../../../utils/password/hashPassword";
 import { uploadImage } from "../../../utils/cloudinary/uploadImage";
 import { deleteFile } from "../../../utils/cloudinary/deleteFile";
+import { activityLogger } from "../../../config/log.config";
 
 const createFacultyController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    const { user } = req;
     const {
       first_name,
       middle_name,
@@ -46,6 +48,12 @@ const createFacultyController = AsyncHandler(
         password
       )
     ) {
+      activityLogger.warn("Faculty Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Required fields are missing",
+      });
       return next(new CustomError(400, "Required fields are missing"));
     }
 
@@ -55,6 +63,12 @@ const createFacultyController = AsyncHandler(
     });
 
     if (existingFaculty) {
+      activityLogger.warn("Faculty Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: `Duplicate faculty found for email ${email} or phone ${phone_number}`,
+      });
       return next(new CustomError(409, "Faculty with this email or phone number already exists"));
     }
 
@@ -109,8 +123,21 @@ const createFacultyController = AsyncHandler(
       const newFaculty = await FacultyModel.create(payload);
 
       if (!newFaculty) {
+        activityLogger.warn("Faculty Create Failed", {
+          user_id: user?._id,
+          http_method: req.method,
+          endpoint: req.originalUrl,
+          message: "Failed to create faculty",
+        });
         return next(new CustomError(400, "Failed to create faculty"));
       }
+
+      activityLogger.info("Faculty Created", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: `Faculty \"${newFaculty.first_name} ${newFaculty.last_name}\" created with ID ${newFaculty.faculty_id}`,
+      });
 
       return res.status(201).json({
         success: true,
@@ -126,6 +153,13 @@ const createFacultyController = AsyncHandler(
           console.error("⚠️ Failed to rollback uploaded image:", rollbackErr);
         }
       }
+      activityLogger.error("Faculty Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Unexpected error while creating faculty",
+        stack: error instanceof Error ? error.stack : undefined,
+      });
       return next(error);
     }
   }
