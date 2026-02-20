@@ -18,7 +18,10 @@ const sendResetPasswordEmail = async (
   const message = new SendSmtpEmail();
   message.subject = "Password Reset Request";
   message.htmlContent = generateResetPasswordEmailHTML(name, resetToken);
-  message.sender = { name: "College Admin", email: "pritammajhi10@gmail.com" };
+  message.sender = {
+    name: "College Admin",
+    email: "sayantika.dey2004@gmail.com",
+  };
   message.to = [{ email: toEmail, name }];
   try {
     await emailAPI.sendTransacEmail(message);
