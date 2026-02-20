@@ -9,6 +9,7 @@ import { Types } from "mongoose";
 import FacultyModel from "../../../models/faculty.model";
 import { getIO } from "../../../config/socket.config";
 import { INotification } from "../../../@types/interface/schema/notification.interface";
+import { activityLogger } from "../../../config/log.config";
 
 const createEventController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -27,6 +28,12 @@ const createEventController = AsyncHandler(
 
     const faculty = await FacultyModel.findById(user?._id);
     if (!faculty?.event_permission) {
+      activityLogger.warn("Event Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Permission denied for creating event",
+      });
       return next(
         new CustomError(403, "You do not have permission to create a event"),
       );
@@ -42,6 +49,12 @@ const createEventController = AsyncHandler(
         venue
       )
     ) {
+      activityLogger.warn("Event Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Required fields are missing",
+      });
       return next(new CustomError(400, "Required fields are missing"));
     }
 
@@ -62,8 +75,21 @@ const createEventController = AsyncHandler(
     const newEvent = await EventModel.create(payload);
 
     if (!newEvent) {
+      activityLogger.warn("Event Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Failed to create event",
+      });
       return next(new CustomError(400, "Failed to create Event"));
     }
+
+    activityLogger.info("Event Created", {
+      user_id: user?._id,
+      http_method: req.method,
+      endpoint: req.originalUrl,
+      message: `Event \"${newEvent.title}\" created with ID ${newEvent.event_id}`,
+    });
 
     // Create notification in database
     const notificationPayload: Partial<INotification> = {

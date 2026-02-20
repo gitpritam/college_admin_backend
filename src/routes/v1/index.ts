@@ -7,6 +7,7 @@ import { authenticate } from "../../middleware/auth.middleware";
 import eventRouter from "./event.router";
 import inquiryRouter from "./inquiry.router";
 import notificationRouter from "./notification.router";
+import DashboardRouter from "./dashboard.router";
 
 const RouterV1 = Router();
 
@@ -17,4 +18,5 @@ RouterV1.use("/notice", authenticate, NoticeRouter);
 RouterV1.use("/event", authenticate, eventRouter);
 RouterV1.use("/inquiry", authenticate, inquiryRouter);
 RouterV1.use("/notifications", notificationRouter);
+RouterV1.use("/dashboard", authenticate, DashboardRouter);
 export default RouterV1;

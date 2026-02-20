@@ -6,9 +6,11 @@ import { IStudent } from "../../../@types/interface/schema/student.interface";
 import StudentModel from "../../../models/student.model";
 import { uploadImage } from "../../../utils/cloudinary/uploadImage";
 import { deleteFile } from "../../../utils/cloudinary/deleteFile";
+import { activityLogger } from "../../../config/log.config";
 
 const createStudentController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    const { user } = req;
     const {
       first_name,
       middle_name,
@@ -40,6 +42,12 @@ const createStudentController = AsyncHandler(
         department
       )
     ) {
+      activityLogger.warn("Student Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Required fields are missing",
+      });
       return next(new CustomError(400, "Required fields are missing"));
     }
     const year_of_admission = new Date().getFullYear();
@@ -88,8 +96,21 @@ const createStudentController = AsyncHandler(
       const newStudent = await StudentModel.create(payload);
 
       if (!newStudent) {
+        activityLogger.warn("Student Create Failed", {
+          user_id: user?._id,
+          http_method: req.method,
+          endpoint: req.originalUrl,
+          message: "Failed to create student",
+        });
         return next(new CustomError(400, "Failed to create student"));
       }
+
+      activityLogger.info("Student Created", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: `Student \"${newStudent.first_name} ${newStudent.last_name}\" created with ID ${newStudent.student_id}`,
+      });
 
       return res.status(201).json({
         success: true,
@@ -105,6 +126,13 @@ const createStudentController = AsyncHandler(
           console.error("⚠️ Failed to rollback uploaded image:", rollbackErr);
         }
       }
+      activityLogger.error("Student Create Failed", {
+        user_id: user?._id,
+        http_method: req.method,
+        endpoint: req.originalUrl,
+        message: "Unexpected error while creating student",
+        stack: error instanceof Error ? error.stack : undefined,
+      });
       return next(error);
     }
   }
