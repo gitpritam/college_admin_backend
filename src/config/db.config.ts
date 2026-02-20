@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { systemLogger } from "./log.config";
 
 const env = process.env.NODE_ENV?.trim().toLowerCase() || "dev";
 const DB_CONNECTION_URI: Record<string, { uri: string }> = {
@@ -18,9 +19,13 @@ const connectDB = async () => {
   try {
     await mongoose.connect(DB_URI);
     console.log(`Database connected for ${env} environment`);
+    systemLogger.info(`Database connected for ${env} environment`);
   } catch (error: unknown) {
     if (error instanceof Error)
-      console.error("Database Connection Error:", error.message);
+      systemLogger.error("Database Connection Error", {
+        message: error.message,
+        errorName: (error as Error).name,
+      });
     process.exit(1);
   }
 };

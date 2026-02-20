@@ -12,6 +12,18 @@ import { createServer } from "node:http";
 import { Server } from "socket.io";
 import corsOptions from "./config/cors.config";
 import { initSocket } from "./config/socket.config";
+import { systemLogger } from "./config/log.config";
+
+// Handle uncaught exceptions
+process.on("uncaughtException", (err: Error) => {
+  console.error("Uncaught Exception:", err.name, err.message);
+  process.env.NODE_ENV === "prod" &&
+    systemLogger.error("Uncaught Exception", {
+      message: err.message,
+      errorName: err.name,
+    });
+  process.exit(1);
+});
 
 const app = express();
 const server = createServer(app);
@@ -41,6 +53,22 @@ connectDB();
 
 // Start Server
 const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server online: ${PORT}`));
+server.listen(PORT, () => {
+  console.log(`Server online: ${PORT}`);
+  systemLogger.info(`Server online: ${PORT}`);
+});
 
 initSocket(server);
+
+// Handle unhandled promise rejections
+process.on("unhandledRejection", (err: Error) => {
+  console.error("Unhandled Rejection:", err.name, err.message);
+  process.env.NODE_ENV === "prod" &&
+    systemLogger.error("Unhandled Rejection", {
+      message: err.message,
+      errorName: err.name,
+    });
+  server.close(() => {
+    process.exit(1);
+  });
+});

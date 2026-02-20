@@ -9,6 +9,7 @@ import FacultyModel from "../../../models/faculty.model";
 import { Types } from "mongoose";
 import { getIO } from "../../../config/socket.config";
 import { INotification } from "../../../@types/interface/schema/notification.interface";
+import { activityLogger } from "../../../config/log.config";
 
 const createNoticeController = AsyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -58,6 +59,13 @@ const createNoticeController = AsyncHandler(
     };
 
     const newNotification = await NotificationModel.create(notificationPayload);
+
+    activityLogger.info("Notice Created", {
+      user_id: user?._id,
+      http_method: req.method,
+      endpoint: req.originalUrl,
+      message: `Notice "${newNotice.title}" created with ID ${newNotice.notice_id}`,
+    });
 
     res.status(201).json({
       success: true,
