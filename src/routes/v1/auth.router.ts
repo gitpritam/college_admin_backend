@@ -11,10 +11,11 @@ import { authenticate } from "../../middleware/auth.middleware";
 import { validateRequest } from "../../middleware/validate.middleware";
 import { forgotPasswordValidationSchema } from "../../validation/forgotPassword.validation";
 import { resetPasswordValidationSchema } from "../../validation/resetPassword.validation";
+import { loginLimiter } from "../../config/ratelimit.config";
 
 const AuthRouter = Router();
 
-AuthRouter.post("/login", login);
+AuthRouter.post("/login", loginLimiter, login);
 AuthRouter.post("/logout", logout);
 AuthRouter.post(
   "/forgot-password",

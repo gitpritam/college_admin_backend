@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { Error as MongooseError } from "mongoose"; // Mongoose-specific errors
 import CustomError from "../utils/CustomError";
+import { activityLogger } from "../config/log.config";
 // import logger from "@/utils/logger"; // Logging utility (Winston or other logger)
 
 // Utility function for sending responses
@@ -8,7 +9,7 @@ const sendError = (
   res: Response,
   statusCode: number,
   message: string,
-  details?: any
+  details?: any,
 ) => {
   res.status(statusCode).json({
     success: false,
@@ -24,7 +25,7 @@ const handleCastError = (err: MongooseError.CastError): CustomError =>
   new CustomError(400, `Invalid value for ${err.path}: ${err.value}`);
 
 const handleValidationError = (
-  err: MongooseError.ValidationError
+  err: MongooseError.ValidationError,
 ): CustomError => {
   const messages = Object.values(err.errors)
     .map((el) => el.message)
@@ -35,7 +36,7 @@ const handleValidationError = (
 const handleDuplicateKeyError = (err: any): CustomError =>
   new CustomError(
     400,
-    `Duplicate key error: ${Object.keys(err.keyValue).join(", ")}`
+    `Duplicate key error: ${Object.keys(err.keyValue).join(", ")}`,
   );
 
 // **Global Error Handling Middleware**
@@ -43,20 +44,10 @@ const globalErrorHandler = (
   err: CustomError | any,
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ) => {
   err.statusCode = err.statusCode || 500;
   err.status = err.status || "error";
-
-  // Log the error (Winston, Bunyan, or Morgan)
-  // logger.error(`[${req.method}] ${req.originalUrl} - ${err.message}`, {
-  //   stack: err.stack,
-  //   request: {
-  //     params: req.params,
-  //     query: req.query,
-  //     body: req.body,
-  //   },
-  // });
 
   if (process.env.NODE_ENV === "dev" || process.env.NODE_ENV === "local") {
     sendError(res, err.statusCode, err.message, {
@@ -69,13 +60,21 @@ const globalErrorHandler = (
         ? err
         : new CustomError(
             err.statusCode || 500,
-            err.message || "Something went wrong"
+            err.message || "Something went wrong",
           );
 
     //mongodb
     if (err.name === "CastError") error = handleCastError(err);
     if (err.name === "ValidationError") error = handleValidationError(err);
     if (err.code === 11000) error = handleDuplicateKeyError(err);
+
+    //log
+    activityLogger.error(err.message, {
+      user_id: req.user?._id,
+      http_method: req.method,
+      endpoint: req.path,
+      stack: err.stack,
+    });
 
     sendError(res, error.statusCode || 500, error.message);
   }
