@@ -17,6 +17,7 @@ const getAllFacultyController = AsyncHandler(
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i"); //case-insensitive search
       filter = {
+        account_status: true,
         $or: [
           { first_name: regex },
           { faculty_id: regex },
