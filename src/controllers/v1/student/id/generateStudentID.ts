@@ -14,14 +14,14 @@ export const generateStudentID = async (
   })
     .sort({ createdAt: -1 })
     .select("student_id");
-
+ console.log (LastStudentID);
   let newID: number;
   if (!LastStudentID) {
     newID = 1;
   } else {
     newID = Number(LastStudentID?.student_id.split("-")[3]) + 1;
   }
-
+console.log (newID);
   const newStudentID = `${department.toUpperCase()}-STU-${year_of_admission
     .toString()
     .slice(-2)}-${newID.toString().padStart(3, "0")}`;
