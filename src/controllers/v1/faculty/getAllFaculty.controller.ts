@@ -13,19 +13,17 @@ const getAllFacultyController = AsyncHandler(
     const limitNumber = (limit && parseInt(limit as string)) || 10;
     const skip = (pageNumber - 1) * limitNumber;
 
-    let filter = {};
+    let filter: Record<string, any> = {account_status: true,};
     if ((query as string).trim()) {
       const regex = new RegExp(query as string, "i"); //case-insensitive search
-      filter = {
-        account_status: true,
-        $or: [
+      filter.$or = [
           { first_name: regex },
           { faculty_id: regex },
           { phone_number: regex },
           { email: regex },
           { department: regex },
-        ],
-      };
+        ];
+      
     }
 
     const facultyData = await FacultyModel.find( filter)
