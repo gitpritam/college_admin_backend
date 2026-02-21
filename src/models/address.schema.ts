@@ -6,8 +6,6 @@ const AddressSchema = new mongoose.Schema<IAddress>({
     type: String,
     required: [true, "Address is required."],
     trim: true,
-    minlength: [10, "Address must be at least 10 characters."],
-    maxlength: [250, "Address must be at most 250 characters."],
   },
   district: {
     type: String,
