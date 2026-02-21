@@ -9,7 +9,7 @@ export const generateStudentID = async (
   console.log(year_of_admission);
 
   const LastStudentID = await StudentModel.findOne({
-    department: department,
+    department: department.toUpperCase(),
     year_of_admission: admission_year,
   })
     .sort({ createdAt: -1 })

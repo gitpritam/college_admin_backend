@@ -86,7 +86,7 @@ const createStudentController = AsyncHandler(
       guardian_email,
       current_address,
       permanent_address,
-      department,
+      department:department.toUpperCase(),
       year_of_admission,
       passport_photo_url: imageUrl ?? "",
     };
